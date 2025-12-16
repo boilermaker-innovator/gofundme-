@@ -1,0 +1,1360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>iTabs for GoFundMe - Try It Yourself</title>
+
+    <!-- CHANGE THESE FOR YOUR LINK PREVIEW -->
+    <meta property="og:title" content="iTabs for GoFundMe - Make Your Campaign Stand Out">
+    <meta property="og:description" content="Turn your fundraiser into a visual story people actually read. Tap the i button to see it work.">
+    <meta property="og:image" content="https://i.ibb.co/CHANGE-THIS/your-preview-image.jpg">
+    <meta property="og:url" content="https://YOUR-DOMAIN.com/itabs-gofundme-demo">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter/X card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="iTabs for GoFundMe - Make Your Campaign Stand Out">
+    <meta name="twitter:description" content="Turn your fundraiser into a visual story people actually read. Tap the i button to see it work.">
+    <meta name="twitter:image" content="https://i.ibb.co/CHANGE-THIS/your-preview-image.jpg">
+
+    <!-- General description for search engines -->
+    <meta name="description" content="iTabs makes GoFundMe campaigns impossible to ignore. Show your story visually, let people choose to learn more. Try it yourself.">
+
+    <!-- Google Font - Poppins for friendly, approachable feel -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            /* GoFundMe Brand Colors */
+            --gfm-green: #02A95C;
+            --gfm-green-dark: #028A4B;
+            --gfm-green-light: #E8F8F0;
+            --gfm-green-pale: #C3F0B9;
+            --gfm-warm: #87290F;
+            --gfm-warm-light: #FFF5F2;
+            
+            /* Neutrals */
+            --text-dark: #1a1a1a;
+            --text-mid: #4a5568;
+            --text-light: #718096;
+            --bg-white: #ffffff;
+            --bg-grey: #f7f8fa;
+            --border-light: #e2e8f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(180deg, var(--gfm-green-light) 0%, var(--bg-grey) 30%);
+            min-height: 100vh;
+            padding: 20px 15px 60px;
+        }
+        
+        /* Page Header */
+        .page-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        
+        .page-header h1 {
+            font-size: 2em;
+            font-weight: 700;
+            color: var(--gfm-green);
+            margin-bottom: 6px;
+            letter-spacing: -0.5px;
+        }
+        
+        .page-header p {
+            color: var(--text-mid);
+            font-size: 1em;
+            font-weight: 400;
+        }
+        
+        .page-header .hint {
+            font-size: 0.85em;
+            color: var(--text-light);
+            margin-top: 8px;
+        }
+        
+        /* The iTabs Card */
+        .card {
+            background: var(--bg-white);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 
+                0 4px 6px rgba(2, 169, 92, 0.08),
+                0 12px 40px rgba(0, 0, 0, 0.12);
+            max-width: 420px;
+            margin: 0 auto 25px;
+        }
+        
+        .slideshow-container {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, var(--gfm-green) 0%, var(--gfm-green-dark) 100%);
+            overflow: hidden;
+        }
+        
+        .slides-track {
+            display: flex;
+            height: 100%;
+            transition: transform 0.4s ease;
+        }
+        
+        .slide {
+            min-width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--gfm-green) 0%, var(--gfm-green-dark) 100%);
+            position: relative;
+        }
+        
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .slide .placeholder-content {
+            text-align: center;
+            color: white;
+        }
+        
+        .slide .placeholder-content .num {
+            width: 55px;
+            height: 55px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            font-weight: 600;
+            margin: 0 auto 12px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .slide .placeholder-content p {
+            opacity: 0.9;
+            font-size: 0.95em;
+        }
+        
+        /* Navigation dots */
+        .dots-container {
+            position: absolute;
+            bottom: 18px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+        
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.4);
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid white;
+        }
+        
+        .dot.active {
+            background: white;
+            transform: scale(1.25);
+        }
+        
+        /* The "i" button - GoFundMe styled */
+        .i-button {
+            position: absolute;
+            bottom: 18px;
+            right: 18px;
+            width: 54px;
+            height: 54px;
+            background: white;
+            color: var(--gfm-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 30px;
+            font-style: italic;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+            border: 3px solid var(--gfm-green);
+            z-index: 20;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .i-button:hover {
+            transform: scale(1.08);
+            box-shadow: 0 6px 25px rgba(0,0,0,0.3);
+        }
+        
+        .i-button:active {
+            transform: scale(0.95);
+        }
+        
+        /* Auto-play indicator */
+        .autoplay-indicator {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: rgba(0,0,0,0.4);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.75em;
+            font-weight: 500;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .autoplay-indicator .pulse {
+            width: 8px;
+            height: 8px;
+            background: #fff;
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.85); }
+        }
+        
+        .card-content {
+            padding: 22px;
+            text-align: center;
+        }
+        
+        .card-content h2 {
+            color: var(--text-dark);
+            font-size: 1.3em;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        
+        .card-content p {
+            color: var(--text-light);
+            font-size: 0.9em;
+        }
+        
+        /* Template Selector */
+        .template-section {
+            background: var(--bg-white);
+            border-radius: 18px;
+            padding: 22px;
+            max-width: 420px;
+            margin: 0 auto 20px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+        
+        .template-section h3 {
+            color: var(--gfm-green);
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .template-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .template-btn {
+            flex: 1;
+            min-width: calc(50% - 5px);
+            padding: 14px 12px;
+            border: 2px solid var(--border-light);
+            background: var(--bg-white);
+            border-radius: 12px;
+            font-size: 0.9em;
+            font-weight: 500;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            color: var(--text-mid);
+        }
+        
+        .template-btn:hover {
+            border-color: var(--gfm-green);
+            background: var(--gfm-green-light);
+            color: var(--gfm-green);
+        }
+        
+        .template-btn.active {
+            border-color: var(--gfm-green);
+            background: var(--gfm-green);
+            color: white;
+        }
+        
+        .section-hint {
+            font-size: 0.82em;
+            color: var(--text-light);
+            margin-top: 12px;
+        }
+        
+        /* Why iTabs Section */
+        .why-section {
+            background: linear-gradient(135deg, var(--gfm-warm-light) 0%, #fff8f5 100%);
+            border: 1px solid rgba(135, 41, 15, 0.15);
+            border-radius: 18px;
+            padding: 22px;
+            max-width: 420px;
+            margin: 0 auto 20px;
+        }
+        
+        .why-section h3 {
+            color: var(--gfm-warm);
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        
+        .why-section p {
+            color: var(--text-mid);
+            font-size: 0.9em;
+            line-height: 1.7;
+        }
+        
+        .why-section strong {
+            color: var(--text-dark);
+        }
+        
+        /* Form Section */
+        .form-section {
+            background: var(--bg-white);
+            border-radius: 18px;
+            padding: 22px;
+            max-width: 420px;
+            margin: 0 auto 20px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+        
+        .form-section h3 {
+            color: var(--gfm-green);
+            margin-bottom: 4px;
+            font-size: 1.1em;
+            font-weight: 600;
+        }
+        
+        .form-section .subtitle {
+            color: var(--text-light);
+            font-size: 0.85em;
+            margin-bottom: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 18px;
+        }
+        
+        .form-group label {
+            display: block;
+            color: var(--text-dark);
+            font-size: 0.88em;
+            margin-bottom: 6px;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 13px 14px;
+            border: 2px solid var(--border-light);
+            border-radius: 12px;
+            font-size: 0.95em;
+            font-family: inherit;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            background: var(--bg-white);
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--gfm-green);
+            box-shadow: 0 0 0 3px rgba(2, 169, 92, 0.1);
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 70px;
+        }
+        
+        .form-group .hint {
+            font-size: 0.78em;
+            color: var(--text-light);
+            margin-top: 6px;
+            line-height: 1.4;
+        }
+        
+        /* Image inputs section */
+        .images-section {
+            background: var(--gfm-green-light);
+            border-radius: 14px;
+            padding: 18px;
+            margin-bottom: 18px;
+            border: 2px dashed rgba(2, 169, 92, 0.3);
+        }
+        
+        .images-section h4 {
+            color: var(--gfm-green);
+            font-size: 0.95em;
+            font-weight: 600;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        /* Photo picker button */
+        .select-photos-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--gfm-green) 0%, var(--gfm-green-dark) 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1em;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .select-photos-btn:hover {
+            box-shadow: 0 4px 15px rgba(2, 169, 92, 0.3);
+        }
+        
+        .select-photos-btn:active {
+            transform: scale(0.98);
+        }
+        
+        .image-thumbs-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 16px;
+            justify-content: center;
+        }
+        
+        .image-thumb {
+            width: 55px;
+            height: 55px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9em;
+            font-weight: 600;
+            color: var(--text-light);
+            overflow: hidden;
+            border: 2px solid rgba(2, 169, 92, 0.2);
+            transition: all 0.2s;
+        }
+        
+        .image-thumb.filled {
+            border-color: var(--gfm-green);
+            box-shadow: 0 2px 8px rgba(2, 169, 92, 0.2);
+        }
+        
+        .image-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        /* URL options styling */
+        .url-options details {
+            margin-top: 16px;
+        }
+        
+        .url-options summary {
+            font-size: 0.85em;
+            color: var(--gfm-green);
+            cursor: pointer;
+            font-weight: 500;
+            padding: 8px 0;
+        }
+        
+        .url-options summary:hover {
+            color: var(--gfm-green-dark);
+        }
+        
+        .url-hint-box {
+            background: var(--bg-white);
+            border-radius: 10px;
+            padding: 12px 14px;
+            margin: 10px 0;
+            font-size: 0.8em;
+            color: var(--text-mid);
+            line-height: 1.5;
+        }
+        
+        .url-hint-box a {
+            color: var(--gfm-green);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .url-input {
+            width: 100%;
+            padding: 11px 12px;
+            border: 2px solid var(--border-light);
+            border-radius: 10px;
+            font-size: 0.85em;
+            font-family: inherit;
+            margin-bottom: 8px;
+            background: var(--bg-white);
+        }
+        
+        .url-input:focus {
+            outline: none;
+            border-color: var(--gfm-green);
+        }
+        
+        /* Autoplay toggle */
+        .autoplay-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 16px;
+            background: var(--bg-grey);
+            border-radius: 12px;
+            margin-bottom: 18px;
+        }
+        
+        .autoplay-toggle label {
+            font-size: 0.9em;
+            font-weight: 500;
+            color: var(--text-dark);
+        }
+        
+        .toggle-switch {
+            position: relative;
+            width: 52px;
+            height: 28px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .3s;
+            border-radius: 28px;
+        }
+        
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .3s;
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .toggle-switch input:checked + .toggle-slider {
+            background-color: var(--gfm-green);
+        }
+        
+        .toggle-switch input:checked + .toggle-slider:before {
+            transform: translateX(24px);
+        }
+        
+        /* Pro tip callout */
+        .pro-tip {
+            background: linear-gradient(135deg, var(--gfm-green-light) 0%, #e6fff2 100%);
+            border-left: 4px solid var(--gfm-green);
+            padding: 14px 16px;
+            border-radius: 0 12px 12px 0;
+            margin: 20px 0;
+            font-size: 0.88em;
+            color: var(--text-mid);
+            line-height: 1.5;
+        }
+        
+        .pro-tip strong {
+            color: var(--gfm-green);
+        }
+        
+        /* Text overlay on slides */
+        .slide-overlay {
+            position: absolute;
+            bottom: 70px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.65);
+            color: white;
+            padding: 10px 22px;
+            border-radius: 25px;
+            font-size: 0.95em;
+            font-weight: 500;
+            z-index: 15;
+            white-space: nowrap;
+            animation: fadeInUp 0.5s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .slide-overlay.hidden {
+            display: none;
+        }
+        
+        @keyframes fadeInUp {
+            from { 
+                opacity: 0; 
+                transform: translateX(-50%) translateY(10px);
+            }
+            to { 
+                opacity: 1; 
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 25px 20px;
+            max-width: 420px;
+            margin: 0 auto;
+        }
+        
+        .footer p {
+            color: var(--text-mid);
+            font-size: 0.95em;
+            margin-bottom: 16px;
+        }
+        
+        .footer a {
+            display: inline-block;
+            color: var(--bg-white);
+            background: linear-gradient(135deg, var(--gfm-green) 0%, var(--gfm-green-dark) 100%);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 14px 28px;
+            border-radius: 30px;
+            transition: all 0.2s;
+            box-shadow: 0 4px 15px rgba(2, 169, 92, 0.3);
+        }
+        
+        .footer a:hover, .footer a:active {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(2, 169, 92, 0.4);
+        }
+        
+        /* ========== POPUP STYLES ========== */
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.75);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            backdrop-filter: blur(5px);
+        }
+        
+        .popup-overlay.active {
+            display: flex;
+        }
+        
+        .popup {
+            background: var(--bg-white);
+            border-radius: 24px;
+            max-width: 420px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            position: relative;
+            animation: slideUp 0.3s ease;
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .popup-header {
+            background: linear-gradient(135deg, var(--gfm-green) 0%, var(--gfm-green-dark) 100%);
+            color: white;
+            padding: 26px 22px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        .popup-header h3 {
+            font-size: 1.35em;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .popup-header p {
+            opacity: 0.9;
+            font-size: 0.9em;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            width: 34px;
+            height: 34px;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 22px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+        
+        .close-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        .popup-body {
+            padding: 24px;
+        }
+        
+        .section {
+            margin-bottom: 22px;
+        }
+        
+        .section:last-of-type {
+            margin-bottom: 0;
+        }
+        
+        .section h4 {
+            color: var(--gfm-green);
+            font-size: 1.05em;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .section p {
+            color: var(--text-mid);
+            line-height: 1.7;
+            font-size: 0.95em;
+        }
+        
+        .popup-button {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--gfm-green) 0%, var(--gfm-green-dark) 100%);
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 14px;
+            font-weight: 600;
+            font-size: 1.05em;
+            font-family: inherit;
+            margin-top: 24px;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 15px rgba(2, 169, 92, 0.3);
+        }
+        
+        .popup-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(2, 169, 92, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <div class="page-header">
+        <h1>iTabs for GoFundMe</h1>
+        <p>Turn your story into something people actually read</p>
+        <p class="hint">👇 Tap the "i" button to see how it works</p>
+    </div>
+
+    <!-- The iTabs Preview Card -->
+    <div class="card">
+        <div class="slideshow-container" id="slideshow">
+            <div class="autoplay-indicator" id="autoplayIndicator" style="display: none;">
+                <div class="pulse"></div>
+                <span>Auto</span>
+            </div>
+            <div class="slides-track" id="slidesTrack">
+                <!-- Slides generated by JS -->
+            </div>
+            <div class="slide-overlay hidden" id="slideOverlay"></div>
+            <div class="dots-container" id="dotsContainer">
+                <!-- Dots generated by JS -->
+            </div>
+            <div class="i-button" onclick="openPopup()">i</div>
+        </div>
+        <div class="card-content">
+            <h2 id="previewTitle">Your Campaign Name</h2>
+            <p id="previewSubtitle">Swipe photos • Tap i for the full story</p>
+        </div>
+    </div>
+
+    <!-- Why iTabs Section -->
+    <div class="why-section">
+        <h3>🤔 Why use iTabs for GoFundMe?</h3>
+        <p>
+            <strong>The problem:</strong> Most GoFundMe pages are walls of text. People scroll past without reading. Only 27% of campaigns reach their goal.<br><br>
+            <strong>The solution:</strong> iTabs shows photos first (people stop to look), then the "i" button reveals the full story. People CHOOSE to learn more — which means they're already engaged.<br><br>
+            <strong>The result:</strong> More people understand your story → More trust → More donations.
+        </p>
+    </div>
+
+    <!-- Template Selector -->
+    <div class="template-section">
+        <h3>🎨 Try an Example</h3>
+        <div class="template-buttons">
+            <button class="template-btn active" onclick="loadTemplate('medical')">🏥 Medical</button>
+            <button class="template-btn" onclick="loadTemplate('memorial')">🕯️ Memorial</button>
+            <button class="template-btn" onclick="loadTemplate('emergency')">🚨 Emergency</button>
+            <button class="template-btn" onclick="loadTemplate('blank')">✏️ Start Blank</button>
+        </div>
+        <p class="section-hint">See how different campaigns look, or create your own</p>
+    </div>
+
+    <!-- The Form -->
+    <div class="form-section">
+        <h3>✏️ Edit Content</h3>
+        <p class="subtitle">Changes update the preview live</p>
+        
+        <div class="form-group">
+            <label>Campaign Name</label>
+            <input type="text" id="productName" placeholder="e.g. Help Sarah Fight Cancer" oninput="updatePreview()">
+        </div>
+        
+        <!-- Image Selection -->
+        <div class="images-section">
+            <h4>📷 Your Photos</h4>
+            
+            <button type="button" class="select-photos-btn" onclick="document.getElementById('photosPicker').click()">
+                📱 Select Photos from Phone
+            </button>
+            <p class="section-hint" style="text-align: center; margin-top: 10px;">Choose up to 5 photos - they stay on your device</p>
+            
+            <!-- Hidden multi-file input -->
+            <input type="file" id="photosPicker" accept="image/*" multiple style="display:none" onchange="handleMultipleFiles(this)">
+            
+            <!-- Thumbnails preview -->
+            <div class="image-thumbs-row" id="thumbsRow">
+                <div class="image-thumb" id="thumb1"><span>1</span></div>
+                <div class="image-thumb" id="thumb2"><span>2</span></div>
+                <div class="image-thumb" id="thumb3"><span>3</span></div>
+                <div class="image-thumb" id="thumb4"><span>4</span></div>
+                <div class="image-thumb" id="thumb5"><span>5</span></div>
+            </div>
+            
+            <!-- Hidden storage for image data -->
+            <input type="hidden" id="image1">
+            <input type="hidden" id="image2">
+            <input type="hidden" id="image3">
+            <input type="hidden" id="image4">
+            <input type="hidden" id="image5">
+            
+            <!-- Optional URL paste (collapsed) -->
+            <div class="url-options">
+                <details>
+                    <summary>Or paste image URLs instead ▾</summary>
+                    <div class="url-hint-box">
+                        💡 Get free image URLs from <a href="https://imgbb.com" target="_blank">imgbb.com</a> or <a href="https://imgur.com" target="_blank">imgur.com</a><br>
+                        Or right-click any image online → "Copy image address"
+                    </div>
+                    <input type="url" class="url-input" placeholder="Image 1 URL..." oninput="handleUrlInput(1, this.value)">
+                    <input type="url" class="url-input" placeholder="Image 2 URL..." oninput="handleUrlInput(2, this.value)">
+                    <input type="url" class="url-input" placeholder="Image 3 URL..." oninput="handleUrlInput(3, this.value)">
+                    <input type="url" class="url-input" placeholder="Image 4 URL..." oninput="handleUrlInput(4, this.value)">
+                    <input type="url" class="url-input" placeholder="Image 5 URL..." oninput="handleUrlInput(5, this.value)">
+                </details>
+            </div>
+        </div>
+        
+        <!-- Autoplay toggle -->
+        <div class="autoplay-toggle">
+            <label>Auto-play slideshow</label>
+            <div class="toggle-switch">
+                <input type="checkbox" id="autoplayToggle" checked onchange="toggleAutoplay()">
+                <span class="toggle-slider"></span>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label>First-loop overlay text (optional)</label>
+            <input type="text" id="overlayText" placeholder="e.g. Swipe to see Sarah's journey →" oninput="updatePreview()">
+            <p class="hint">Shows on first slide, disappears after first loop</p>
+        </div>
+        
+        <div class="form-group">
+            <label>🚨 The Crisis — What happened?</label>
+            <textarea id="section1" placeholder="What crisis or situation led to this campaign? Be specific and emotional..." oninput="updatePreview()"></textarea>
+        </div>
+        
+        <div class="form-group">
+            <label>💔 Why We Need Help — What's at stake?</label>
+            <textarea id="section2" placeholder="What happens if you don't reach your goal? Why is time important?" oninput="updatePreview()"></textarea>
+        </div>
+        
+        <div class="form-group">
+            <label>💰 Where Money Goes — Be specific</label>
+            <textarea id="section3" placeholder="Break down exactly what donations will cover. People donate more when they know where it goes..." oninput="updatePreview()"></textarea>
+        </div>
+        
+        <div class="form-group">
+            <label>✅ Why Trust This — Verification</label>
+            <textarea id="section4" placeholder="How can people verify this is real? Who are you? How will you provide updates?" oninput="updatePreview()"></textarea>
+        </div>
+        
+        <div class="pro-tip">
+            <strong>✨ Pro tip:</strong> The full iTabs Generator can pull information automatically from your GoFundMe page — just paste the link and it structures everything for you.
+        </div>
+        
+        <div class="form-group">
+            <label>Donate Button Text</label>
+            <input type="text" id="buttonText" placeholder="e.g. Donate Now" oninput="updatePreview()">
+        </div>
+        
+        <div class="form-group">
+            <label>GoFundMe Link</label>
+            <input type="url" id="buttonLink" placeholder="https://gofundme.com/f/your-campaign" oninput="updatePreview()">
+            <p class="hint">Paste your full GoFundMe campaign URL</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>Want iTabs that build themselves from your GoFundMe page?</p>
+        <a href="https://itabsgenerator.gumroad.com/l/gofundme" target="_blank">Get the Full Generator →</a>
+    </div>
+
+    <!-- The Popup -->
+    <div class="popup-overlay" id="popup" onclick="closePopup(event)">
+        <div class="popup" onclick="event.stopPropagation()">
+            <div class="popup-header">
+                <button class="close-btn" onclick="closePopup()">&times;</button>
+                <h3 id="popupTitle">Campaign Name</h3>
+                <p>The full story</p>
+            </div>
+            <div class="popup-body">
+                <div class="section" id="popupSection1">
+                    <h4>🚨 The Crisis</h4>
+                    <p id="popupText1"></p>
+                </div>
+                
+                <div class="section" id="popupSection2">
+                    <h4>💔 Why We Need Help</h4>
+                    <p id="popupText2"></p>
+                </div>
+                
+                <div class="section" id="popupSection3">
+                    <h4>💰 Where Money Goes</h4>
+                    <p id="popupText3"></p>
+                </div>
+                
+                <div class="section" id="popupSection4">
+                    <h4>✅ Why Trust This</h4>
+                    <p id="popupText4"></p>
+                </div>
+                
+                <a href="#" id="popupButton" class="popup-button" target="_blank">Donate Now</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // GoFundMe-specific Templates
+        const templates = {
+            medical: {
+                name: "Help Sarah Fight Cancer",
+                images: [
+                    "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=600",
+                    "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=600",
+                    "https://images.unsplash.com/photo-1631815588090-d4bfec5b1ccb?w=600",
+                    "https://images.unsplash.com/photo-1516549655169-df83a0774514?w=600",
+                    "https://images.unsplash.com/photo-1559839914-17aae19cec71?w=600"
+                ],
+                section1: "Sarah, 34, was diagnosed with Stage 3 breast cancer two months ago. She's a single mum with two kids under 10. The cancer has spread to her lymph nodes and she needs aggressive chemotherapy starting immediately.",
+                section2: "Without treatment, Sarah has less than 18 months. Her kids would grow up without their mum. The treatment gives her an 80% survival rate, but she can't work during chemo and her savings are already gone from initial tests.",
+                section3: "$15,000 for 6 months of chemotherapy co-pays. $8,000 for medication not covered by insurance. $7,000 for living expenses while Sarah can't work. $5,000 emergency fund for complications.",
+                section4: "I'm Sarah's sister, Emma. Hospital records confirm her diagnosis (privacy-protected copies available). I'll post weekly updates with receipts. Sarah's oncologist, Dr. Chen at Perth General, can verify her treatment plan.",
+                buttonText: "Donate to Sarah's Fight",
+                buttonLink: "https://gofundme.com",
+                overlayText: "See Sarah's story →"
+            },
+            memorial: {
+                name: "Honouring Dad — Funeral Costs",
+                images: [
+                    "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=600",
+                    "https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?w=600",
+                    "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600",
+                    "https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=600",
+                    "https://images.unsplash.com/photo-1464746133101-a2c3f88e0dd9?w=600"
+                ],
+                section1: "Our dad, Michael Torres, 58, passed away suddenly from a heart attack last Tuesday. He was the heart of our family — coached little league for 20 years, never missed a school event, always helping neighbours. We're devastated.",
+                section2: "Dad didn't have life insurance. Mum is disabled and lives on a pension. We have 10 days to arrange his funeral but we're $12,000 short. We want to give him the service he deserved — the man who gave everything to everyone else.",
+                section3: "$6,500 for funeral home services and casket. $2,800 for cemetery plot and burial. $1,500 for flowers, programs, and reception. $1,200 for headstone (can wait, but we want to include it).",
+                section4: "We're the Torres family from Fremantle. Dad's obituary is in the West Australian (link in updates). All three siblings are managing this fund — Maria, Carlos, and James. We'll share funeral details and photos after the service.",
+                buttonText: "Help Us Honour Dad",
+                buttonLink: "https://gofundme.com",
+                overlayText: "Dad's legacy →"
+            },
+            emergency: {
+                name: "Rebuild After the Bushfire",
+                images: [
+                    "https://images.unsplash.com/photo-1542856204-00101eb6def4?w=600",
+                    "https://images.unsplash.com/photo-1599709877437-4c7f6e0e8b75?w=600",
+                    "https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?w=600",
+                    "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600",
+                    "https://images.unsplash.com/photo-1530587191325-3db32d826c18?w=600"
+                ],
+                section1: "Last week's bushfire destroyed our home of 25 years in the Perth Hills. We evacuated with just our pets and the clothes on our backs. The house, all our possessions, family photos going back generations — all gone in hours.",
+                section2: "Insurance will cover rebuilding, but not for 6-8 months. We have nowhere to live and nothing to start over with. We need immediate help to survive while we rebuild — rent, clothes, basic furniture, school supplies for the kids.",
+                section3: "$4,000 for 3 months temporary housing deposit. $2,000 for clothes and essentials for family of 4. $1,500 for kids' school uniforms, supplies, laptops. $2,500 emergency buffer for unexpected costs.",
+                section4: "We're the Patterson family — locals here for 25 years. Our address was 47 Mountain Road, Mundaring. Fire damage photos available. Local ABC news covered our street (link in updates). Happy to provide ID verification to major donors.",
+                buttonText: "Help Us Rebuild",
+                buttonLink: "https://gofundme.com",
+                overlayText: "Our home is gone →"
+            },
+            blank: {
+                name: "",
+                images: ["", "", "", "", ""],
+                section1: "",
+                section2: "",
+                section3: "",
+                section4: "",
+                buttonText: "",
+                buttonLink: "",
+                overlayText: ""
+            }
+        };
+        
+        let currentSlide = 0;
+        let autoplayInterval = null;
+        let touchStartX = 0;
+        let touchEndX = 0;
+        let firstLoopComplete = false;
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            loadTemplate('medical');
+            setupTouchEvents();
+            if (document.getElementById('autoplayToggle').checked) {
+                startAutoplay();
+            }
+        });
+        
+        function loadTemplate(templateName) {
+            const template = templates[templateName];
+            
+            // Update button states
+            document.querySelectorAll('.template-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.textContent.toLowerCase().includes(templateName) || 
+                    (templateName === 'blank' && btn.textContent.includes('Blank'))) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            // Fill form
+            document.getElementById('productName').value = template.name;
+            document.getElementById('image1').value = template.images[0];
+            document.getElementById('image2').value = template.images[1];
+            document.getElementById('image3').value = template.images[2];
+            document.getElementById('image4').value = template.images[3];
+            document.getElementById('image5').value = template.images[4];
+            document.getElementById('section1').value = template.section1;
+            document.getElementById('section2').value = template.section2;
+            document.getElementById('section3').value = template.section3;
+            document.getElementById('section4').value = template.section4;
+            document.getElementById('buttonText').value = template.buttonText;
+            document.getElementById('buttonLink').value = template.buttonLink;
+            document.getElementById('overlayText').value = template.overlayText || '';
+            
+            // Update thumbnails
+            template.images.forEach((url, index) => {
+                const num = index + 1;
+                const thumb = document.getElementById('thumb' + num);
+                if (url && url.trim()) {
+                    thumb.innerHTML = `<img src="${url}" alt="Photo ${num}">`;
+                    thumb.classList.add('filled');
+                } else {
+                    thumb.innerHTML = `<span>${num}</span>`;
+                    thumb.classList.remove('filled');
+                }
+            });
+            
+            currentSlide = 0;
+            firstLoopComplete = false;
+            updatePreview();
+            updateOverlayVisibility();
+            
+            if (document.getElementById('autoplayToggle').checked) {
+                startAutoplay();
+            }
+        }
+        
+        function updatePreview() {
+            const productName = document.getElementById('productName').value || 'Your Campaign Name';
+            const images = [
+                document.getElementById('image1').value,
+                document.getElementById('image2').value,
+                document.getElementById('image3').value,
+                document.getElementById('image4').value,
+                document.getElementById('image5').value
+            ];
+            const section1 = document.getElementById('section1').value;
+            const section2 = document.getElementById('section2').value;
+            const section3 = document.getElementById('section3').value;
+            const section4 = document.getElementById('section4').value;
+            const buttonText = document.getElementById('buttonText').value || 'Donate Now';
+            const buttonLink = document.getElementById('buttonLink').value || '#';
+            
+            document.getElementById('previewTitle').textContent = productName;
+            document.getElementById('popupTitle').textContent = productName;
+            
+            const slidesTrack = document.getElementById('slidesTrack');
+            const dotsContainer = document.getElementById('dotsContainer');
+            
+            let slidesHTML = '';
+            let dotsHTML = '';
+            
+            images.forEach((url, index) => {
+                if (url && url.trim()) {
+                    slidesHTML += `<div class="slide"><img src="${url}" alt="Photo ${index + 1}" onerror="this.parentElement.innerHTML='<div class=\\'placeholder-content\\'><div class=\\'num\\'>!</div><p>Image failed to load</p></div>'"></div>`;
+                } else {
+                    slidesHTML += `<div class="slide"><div class="placeholder-content"><div class="num">${index + 1}</div><p>Add photo</p></div></div>`;
+                }
+                
+                const isActive = index === currentSlide ? 'active' : '';
+                dotsHTML += `<div class="dot ${isActive}" onclick="goToSlide(${index})"></div>`;
+            });
+            
+            slidesTrack.innerHTML = slidesHTML;
+            dotsContainer.innerHTML = dotsHTML;
+            slidesTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+            
+            // Update popup content
+            document.getElementById('popupText1').textContent = section1 || 'Describe what crisis or situation led to this campaign...';
+            document.getElementById('popupText2').textContent = section2 || 'Explain what happens if you don\'t reach your goal...';
+            document.getElementById('popupText3').textContent = section3 || 'Break down exactly what donations will cover...';
+            document.getElementById('popupText4').textContent = section4 || 'Explain how people can verify this is real...';
+            document.getElementById('popupButton').textContent = buttonText;
+            document.getElementById('popupButton').href = buttonLink;
+            
+            // Show/hide sections based on content
+            document.getElementById('popupSection1').style.display = section1 ? 'block' : 'none';
+            document.getElementById('popupSection2').style.display = section2 ? 'block' : 'none';
+            document.getElementById('popupSection3').style.display = section3 ? 'block' : 'none';
+            document.getElementById('popupSection4').style.display = section4 ? 'block' : 'none';
+        }
+        
+        function goToSlide(index) {
+            // Check if we've completed a full loop
+            if (index === 0 && currentSlide === 4) {
+                firstLoopComplete = true;
+                hideOverlay();
+            }
+            
+            currentSlide = index;
+            const slidesTrack = document.getElementById('slidesTrack');
+            slidesTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+            
+            document.querySelectorAll('.dot').forEach((dot, i) => {
+                dot.classList.toggle('active', i === currentSlide);
+            });
+            
+            updateOverlayVisibility();
+        }
+        
+        function updateOverlayVisibility() {
+            const overlay = document.getElementById('slideOverlay');
+            const overlayText = document.getElementById('overlayText').value;
+            
+            if (overlayText && currentSlide === 0 && !firstLoopComplete) {
+                overlay.textContent = overlayText;
+                overlay.classList.remove('hidden');
+            } else {
+                overlay.classList.add('hidden');
+            }
+        }
+        
+        function hideOverlay() {
+            const overlay = document.getElementById('slideOverlay');
+            overlay.classList.add('hidden');
+        }
+        
+        function nextSlide() {
+            const totalSlides = 5;
+            currentSlide = (currentSlide + 1) % totalSlides;
+            goToSlide(currentSlide);
+        }
+        
+        function prevSlide() {
+            const totalSlides = 5;
+            currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+            goToSlide(currentSlide);
+        }
+        
+        function startAutoplay() {
+            stopAutoplay();
+            autoplayInterval = setInterval(nextSlide, 3000);
+            document.getElementById('autoplayIndicator').style.display = 'flex';
+        }
+        
+        function stopAutoplay() {
+            if (autoplayInterval) {
+                clearInterval(autoplayInterval);
+                autoplayInterval = null;
+            }
+            document.getElementById('autoplayIndicator').style.display = 'none';
+        }
+        
+        function toggleAutoplay() {
+            if (document.getElementById('autoplayToggle').checked) {
+                startAutoplay();
+            } else {
+                stopAutoplay();
+            }
+        }
+        
+        function setupTouchEvents() {
+            const slideshow = document.getElementById('slideshow');
+            
+            slideshow.addEventListener('touchstart', e => {
+                touchStartX = e.changedTouches[0].screenX;
+            }, false);
+            
+            slideshow.addEventListener('touchend', e => {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+            }, false);
+        }
+        
+        function handleSwipe() {
+            const diff = touchStartX - touchEndX;
+            if (Math.abs(diff) > 50) {
+                if (diff > 0) {
+                    nextSlide();
+                } else {
+                    prevSlide();
+                }
+            }
+        }
+        
+        function openPopup() {
+            document.getElementById('popup').classList.add('active');
+            document.body.style.overflow = 'hidden';
+            stopAutoplay();
+        }
+        
+        function closePopup(event) {
+            if (!event || event.target.id === 'popup' || event.target.classList.contains('close-btn')) {
+                document.getElementById('popup').classList.remove('active');
+                document.body.style.overflow = '';
+                if (document.getElementById('autoplayToggle').checked) {
+                    startAutoplay();
+                }
+            }
+        }
+        
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closePopup();
+        });
+        
+        // Handle multiple file selection from phone
+        function handleMultipleFiles(input) {
+            const files = Array.from(input.files).slice(0, 5);
+            
+            files.forEach((file, index) => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imageData = e.target.result;
+                    const num = index + 1;
+                    
+                    document.getElementById('image' + num).value = imageData;
+                    
+                    const thumb = document.getElementById('thumb' + num);
+                    thumb.innerHTML = `<img src="${imageData}" alt="Photo ${num}">`;
+                    thumb.classList.add('filled');
+                    
+                    updatePreview();
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+        
+        // Handle URL input for images
+        function handleUrlInput(num, url) {
+            document.getElementById('image' + num).value = url;
+            
+            const thumb = document.getElementById('thumb' + num);
+            if (url && url.trim()) {
+                const img = new Image();
+                img.onload = function() {
+                    thumb.innerHTML = `<img src="${url}" alt="Photo ${num}">`;
+                    thumb.classList.add('filled');
+                    updatePreview();
+                };
+                img.onerror = function() {
+                    thumb.innerHTML = `<span>!</span>`;
+                    thumb.classList.remove('filled');
+                    updatePreview();
+                };
+                img.src = url;
+            } else {
+                thumb.innerHTML = `<span>${num}</span>`;
+                thumb.classList.remove('filled');
+                updatePreview();
+            }
+        }
+    </script>
+</body>
+</html>
